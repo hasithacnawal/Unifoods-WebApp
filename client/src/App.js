@@ -4,10 +4,8 @@ import "./Canteen.css";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
-
 import { Provider } from "react-redux";
 import store from "./store";
-
 import Default from "./pages/Default";
 import Homepage from "./pages/User/Homepage";
 import UserForm from "./components/login/UserForm";
@@ -17,9 +15,6 @@ import CardManager from "./pages/admin/CardManager";
 import AdminHome from "./pages/admin/AdminHome";
 import AccountManager from "./pages/admin/AccountManager";
 import MyAccount from "./pages/User/MyAccount";
-import ImgDropAndCrop from "./components/dragndrop/ImgDrop";
-import ImgDrop from "./components/dragndrop/ImgDrop";
-import productdata from "./productdata";
 import CardEdit from "./components/CardEdit";
 import ItemEdit from "./components/ItemEdit";
 import Shop from "./pages/User/Shop";
@@ -55,18 +50,10 @@ class App extends Component {
                 path="/admin/ordersManager"
                 component={OrdersManager}
               />
-              <Route
-                exact
-                path="/user/:userId/myaccount"
-                component={MyAccount}
-              />
-              <Route
-                exact
-                path="/user/:userId/cardprofile"
-                component={CardProfile}
-              />
-              <Route exact path="/user/:userId/shop" component={Shop} />
-              <Route exact path="/user/:userId/mycart" component={CartPage} />
+              <Route exact path="/myaccount" component={MyAccount} />
+              <Route exact path="/user/cardprofile" component={CardProfile} />
+              <Route exact path="/shop" component={Shop} />
+              <Route exact path="/mycart" component={CartPage} />
 
               {/* <Route exact path="/cart" component={Cart} /> */}
               <Route
@@ -77,8 +64,6 @@ class App extends Component {
               <Route exact path="/signup" component={UserForm} />
               <Route component={Default} />
             </Switch>
-            {/* <ItemModel />
-            <ShoppingList /> */}
           </div>
         </Provider>
       </React.Fragment>

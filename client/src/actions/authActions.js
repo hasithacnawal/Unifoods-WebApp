@@ -1,12 +1,8 @@
 import axios from "axios";
 import { returnErrors } from "./errorActions";
 import {
-  USER_LOADED,
   USER_LOADING,
   GET_USERS,
-  ADMIN_LOADING,
-  ADMIN_LOADED,
-  AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
@@ -15,12 +11,12 @@ import {
   REGISTER_FAIL,
   ADMIN_LOGGED,
   UPDATE_USER,
-  REMOVE_USER
+  REMOVE_USER,
 } from "./types";
 import { cardLogin } from "./cardActions";
 
 // Setup config/headers and token
-export const tokenConfig = getState => {
+export const tokenConfig = (getState) => {
   //get token from localStorage
   const token = getState().auth.token;
   const adminToken = getState().auth.adminToken;
@@ -28,8 +24,8 @@ export const tokenConfig = getState => {
   //header
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   //if token, add to headers
   if (adminToken) {
@@ -41,24 +37,24 @@ export const tokenConfig = getState => {
 };
 
 //get all users////
-export const getUsers = () => dispatch => {
+export const getUsers = () => (dispatch) => {
   dispatch(setUsersLoading());
   axios
     .get("/api/users")
-    .then(res =>
+    .then((res) =>
       dispatch({
         type: GET_USERS,
-        payload: res.data
+        payload: res.data,
       })
     )
-    .catch(err =>
+    .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
 // set user loading for all users
 export const setUsersLoading = () => {
   return {
-    type: USER_LOADING
+    type: USER_LOADING,
   };
 };
 
@@ -73,13 +69,13 @@ export const register = ({
   faculty,
   cardNumber,
   pin,
-  address
-}) => dispatch => {
+  address,
+}) => (dispatch) => {
   //headers
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   //request body
@@ -93,23 +89,23 @@ export const register = ({
     faculty,
     cardNumber,
     pin,
-    address
+    address,
   });
 
   axios
     .post("/api/users", body, config)
-    .then(res =>
+    .then((res) =>
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data
+        payload: res.data,
       })
     )
-    .catch(err => {
+    .catch((err) => {
       dispatch(
         returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
       );
       dispatch({
-        type: REGISTER_FAIL
+        type: REGISTER_FAIL,
       });
     });
   return config;
@@ -118,27 +114,27 @@ export const register = ({
 export const updateUser = (id, user) => (dispatch, getState) => {
   axios
     .post(`/api/users/update/${id}`, user, tokenConfig(getState))
-    .then(res =>
+    .then((res) =>
       dispatch({
         type: UPDATE_USER,
-        payload: res.id
+        payload: res.id,
       })
     )
-    .catch(err =>
+    .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
 //delete user
-export const deleteUser = id => (dispatch, getState) => {
+export const deleteUser = (id) => (dispatch, getState) => {
   axios
     .delete(`/api/users/${id}`, tokenConfig(getState))
-    .then(res =>
+    .then((res) =>
       dispatch({
         type: REMOVE_USER,
-        payload: id
+        payload: id,
       })
     )
-    .catch(err =>
+    .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
@@ -148,13 +144,13 @@ export const registerAdmin = ({
   email,
   password,
   phoneNumber,
-  address
-}) => dispatch => {
+  address,
+}) => (dispatch) => {
   //headers
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   //request body
@@ -163,35 +159,35 @@ export const registerAdmin = ({
     email,
     password,
     phoneNumber,
-    address
+    address,
   });
 
   axios
     .post("/api/admins", body, config)
-    .then(res =>
+    .then((res) =>
       dispatch({
         type: ADMIN_REGISTERED,
-        payload: res.data
+        payload: res.data,
       })
     )
-    .catch(err => {
+    .catch((err) => {
       dispatch(
         returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
       );
       dispatch({
-        type: REGISTER_FAIL
+        type: REGISTER_FAIL,
       });
     });
   return config;
 };
 
 //Login User
-export const login = ({ email, password }) => dispatch => {
+export const login = ({ email, password }) => (dispatch) => {
   //headers
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   //request body
@@ -199,7 +195,7 @@ export const login = ({ email, password }) => dispatch => {
 
   axios
     .post("/api/auth", body, config)
-    .then(res => {
+    .then((res) => {
       const userData = res.data.user;
       if (userData.pin.length > 0 && userData.cardNumber.length > 0) {
         const pin = userData.pin;
@@ -207,29 +203,30 @@ export const login = ({ email, password }) => dispatch => {
 
         dispatch(cardLogin({ cardNumber, pin }));
       }
+
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data
+        payload: res.data,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(
         returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
       );
       dispatch({
-        type: LOGIN_FAIL
+        type: LOGIN_FAIL,
       });
     });
   return config;
 };
 
 //lohin as admin
-export const loginAdmin = ({ email, password }) => dispatch => {
+export const loginAdmin = ({ email, password }) => (dispatch) => {
   //headers
   const config = {
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   //request body
@@ -237,18 +234,18 @@ export const loginAdmin = ({ email, password }) => dispatch => {
 
   axios
     .post("/api/adminAuth", body, config)
-    .then(res =>
+    .then((res) =>
       dispatch({
         type: ADMIN_LOGGED,
-        payload: res.data
+        payload: res.data,
       })
     )
-    .catch(err => {
+    .catch((err) => {
       dispatch(
         returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
       );
       dispatch({
-        type: LOGIN_FAIL
+        type: LOGIN_FAIL,
       });
     });
   return config;
@@ -257,6 +254,6 @@ export const loginAdmin = ({ email, password }) => dispatch => {
 //Logout
 export const logout = () => {
   return {
-    type: LOGOUT_SUCCESS
+    type: LOGOUT_SUCCESS,
   };
 };

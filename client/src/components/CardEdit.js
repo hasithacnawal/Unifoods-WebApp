@@ -7,7 +7,7 @@ import {
   Input,
   Container,
   Card,
-  CardBody
+  CardBody,
 } from "reactstrap";
 import { connect } from "react-redux";
 import { editCard } from "../actions/cardActions";
@@ -24,23 +24,23 @@ class CardEdit extends Component {
     cardNumber: "",
     pin: "",
     balance: "",
-    submit: false
+    submit: false,
   };
 
   static propTypes = {
     adminAuthenticated: PropTypes.bool,
-    card: PropTypes.object.isRequired
+    card: PropTypes.object.isRequired,
   };
   // onClick={() => {
   //   value.addToCart(id);
   //   value.openModal(id);
   // }}
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
     const newCard = {
@@ -49,7 +49,7 @@ class CardEdit extends Component {
       nameOnCard: this.state.nameOnCard,
       cardNumber: this.state.cardNumber,
       pin: this.state.pin,
-      balance: this.state.balance
+      balance: this.state.balance,
     };
     console.log(newCard.id);
     //add item via additem action
@@ -65,7 +65,7 @@ class CardEdit extends Component {
       nameOnCard: card.nameOnCard,
       cardNumber: card.cardNumber,
       pin: card.pin,
-      balance: card.balance
+      balance: card.balance,
     });
   }
 
@@ -78,7 +78,7 @@ class CardEdit extends Component {
         nameOnCard: card.nameOnCard,
         cardNumber: card.cardNumber,
         pin: card.pin,
-        balance: card.balance
+        balance: card.balance,
       });
     }
     return (
@@ -156,9 +156,9 @@ class CardEdit extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   card: state.card,
-  adminAuthenticated: state.auth.adminAuthenticated
+  adminAuthenticated: state.auth.adminAuthenticated,
 });
 
 export default connect(mapStateToProps, { editCard })(CardEdit);

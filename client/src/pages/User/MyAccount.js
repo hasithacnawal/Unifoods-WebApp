@@ -4,16 +4,11 @@ import PropTypes from "prop-types";
 import {
   Card,
   CardBody,
-  CardImg,
   CardTitle,
-  CardSubtitle,
-  CardText,
   Button,
   Form,
-  FormGroup,
   Label,
   Input,
-  Alert
 } from "reactstrap";
 import { updateUser } from "../../actions/authActions";
 import AppNavbar from "../../components/navbar/AppNavbar";
@@ -32,22 +27,21 @@ export class MyAccount extends Component {
     address: "",
     cardNumber: "",
     pin: "",
-    submit: false
+    submit: false,
   };
   static propTypes = {
     card: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    isAuthenticated: PropTypes.bool
+    isAuthenticated: PropTypes.bool,
   };
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
   componentDidMount() {
     if (this.props.auth) {
-      const { user } = this.props.auth;
-      if (user) {
-        const { user } = this.props.auth.user;
+      const { userInfo } = this.props.auth;
+      if (userInfo) {
+        const { user } = this.props.auth.userInfo;
         this.setState({
           id: user.id,
           firstName: user.firstName,
@@ -58,14 +52,14 @@ export class MyAccount extends Component {
           phoneNumber: user.phoneNumber,
           address: user.address,
           cardNumber: user.cardNumber,
-          pin: user.pin
+          pin: user.pin,
         });
       } else {
-        this.props.history.push("/");
+        this.props.history.push("/shop");
       }
     }
   }
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
 
     const newUser = {
@@ -78,7 +72,7 @@ export class MyAccount extends Component {
       phoneNumber: this.state.phoneNumber,
       address: this.state.address,
       cardNumber: this.state.cardNumber,
-      pin: this.state.pin
+      pin: this.state.pin,
     };
 
     //add item via additem action
@@ -90,8 +84,8 @@ export class MyAccount extends Component {
   render() {
     const styles = {
       button: {
-        margine: 15
-      }
+        margine: 15,
+      },
     };
 
     return (
@@ -239,11 +233,10 @@ export class MyAccount extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   card: state.card,
   auth: state.auth,
-  user: state.auth.user,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { updateUser })(withRouter(MyAccount));
