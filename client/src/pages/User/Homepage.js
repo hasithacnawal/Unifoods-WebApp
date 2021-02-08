@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import Hero from "../../components/Hero";
-import { Button } from "reactstrap";
+import { Button, Carousel } from "reactstrap";
 
 class Homepage extends Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool
+    isAuthenticated: PropTypes.bool,
   };
 
   render() {
@@ -36,9 +36,9 @@ class Homepage extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps)(Homepage);

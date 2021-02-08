@@ -15,7 +15,7 @@ app.post("/upload", (req, res) => {
     return res.status(400).json({ msg: "No file uploaded" });
   }
   const file = req.files.file;
-  file.mv(`${__dirname}/cilent/public/uploads/${file.name}`, err => {
+  file.mv(`${__dirname}/cilent/public/uploads/${file.name}`, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send(err);
@@ -31,10 +31,10 @@ mongoose
   .connect(db, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
   })
   .then(() => console.log("mongodb connected"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // //use routes
 app.use("/api/items", require("./routes/api/items"));
@@ -46,6 +46,6 @@ app.use("/api/cardsAuth", require("./routes/api/cardsAuth"));
 app.use("/api/cards", require("./routes/api/cards"));
 app.use("/api/orders", require("./routes/api/orders"));
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5500;
 
 app.listen(port, () => console.log(`server started on port ${port}`));
